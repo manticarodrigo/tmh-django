@@ -22,15 +22,25 @@ class Common(Configuration):
         'rest_framework.authtoken',  # token authentication
         'django_filters',            # for filtering rest endpoints
         'corsheaders',               # for cors requests
-        'oauth2_provider',
-        'social_django',
-        'rest_framework_social_oauth2',
+
+        # Rest auth
+        'rest_auth',
+        'django.contrib.sites',
+        'allauth',
+        'allauth.account',
+        'rest_auth.registration',
+
+        # Social providers
+        'allauth.socialaccount',
+        'allauth.socialaccount.providers.facebook',
 
         # Your apps
         'tmh.users',
         'tmh.projects'
 
     )
+
+    SITE_ID = 1
 
     # https://docs.djangoproject.com/en/2.0/topics/http/middleware/
     MIDDLEWARE = (
@@ -104,8 +114,6 @@ class Common(Configuration):
                     'django.template.context_processors.request',
                     'django.contrib.auth.context_processors.auth',
                     'django.contrib.messages.context_processors.messages',
-                    'social_django.context_processors.backends',
-                    'social_django.context_processors.login_redirect',
                 ],
             },
         },
@@ -209,30 +217,5 @@ class Common(Configuration):
         'DEFAULT_AUTHENTICATION_CLASSES': (
             'rest_framework.authentication.SessionAuthentication',
             'rest_framework.authentication.TokenAuthentication',
-            # 'oauth2_provider.ext.rest_framework.OAuth2Authentication',  # django-oauth-toolkit < 1.0.0
-            'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # django-oauth-toolkit >= 1.0.0
-            'rest_framework_social_oauth2.authentication.SocialAuthentication',
         )
-    }
-
-    AUTHENTICATION_BACKENDS = (
-        # Facebook OAuth2
-        'social_core.backends.facebook.FacebookAppOAuth2',
-        'social_core.backends.facebook.FacebookOAuth2',
-
-        # django-rest-framework-social-oauth2
-        'rest_framework_social_oauth2.backends.DjangoOAuth2',
-
-        # Django
-        'django.contrib.auth.backends.ModelBackend',
-    )
-
-    # Facebook configuration
-    SOCIAL_AUTH_FACEBOOK_KEY = '245954362655647'
-    SOCIAL_AUTH_FACEBOOK_SECRET = '6644f0c3559f5fd94473bbe6d0f496a4'
-
-    # Define SOCIAL_AUTH_FACEBOOK_SCOPE to get extra permissions from facebook. Email is not sent by default, to get it, you must request the email permission:
-    SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-    SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-        'fields': 'id, name, email'
     }

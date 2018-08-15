@@ -4,6 +4,15 @@ from .models import User
 from .permissions import IsUserOrReadOnly
 from .serializers import CreateUserSerializer, UserSerializer
 
+# FB Views
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from rest_auth.registration.views import SocialLoginView, SocialConnectView
+
+class FacebookLogin(SocialLoginView):
+    adapter_class = FacebookOAuth2Adapter
+
+class FacebookConnect(SocialConnectView):
+    adapter_class = FacebookOAuth2Adapter
 
 class UserViewSet(mixins.RetrieveModelMixin,
                   mixins.UpdateModelMixin,
