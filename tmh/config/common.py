@@ -219,3 +219,8 @@ class Common(Configuration):
             'rest_framework.authentication.TokenAuthentication',
         )
     }
+    
+    # Django Rest Auth
+    REST_AUTH_SERIALIZERS = {
+        'TOKEN_SERIALIZER': 'tmh.users.serializers.TokenSerializer',
+    }
