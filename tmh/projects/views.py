@@ -15,8 +15,8 @@ class ListProject(viewsets.ModelViewSet):
     @action(methods=['get'], detail=False, permission_classes=[])
     def me(self, request, pk=None):
         user = request.user
-        projects = ProjectSerializer(Project.objects.filter(user__pk=user.id), many=True).data
-        return Response(projects)
+        serializer = ProjectSerializer(Project.objects.filter(user__pk=user.id), many=True)
+        return Response(serializer.data)
 
 
 class DetailProject(viewsets.ModelViewSet):
