@@ -15,8 +15,9 @@ from rest_framework.response import Response
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from rest_auth.registration.views import SocialLoginView, SocialConnectView
 
-class UserAuthToken(ObtainAuthToken):
 
+# TODO: replace drf with rest-auth
+class UserAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
                                            context={'request': request})
@@ -26,7 +27,9 @@ class UserAuthToken(ObtainAuthToken):
         return Response({
             'token': token.key,
             'user_id': user.pk,
-            'email': user.email
+            'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
         })
 
 class UserViewSet(mixins.RetrieveModelMixin,
