@@ -31,9 +31,29 @@ class Project(models.Model):
         ('CHECKOUT', 'Checkout'),
         ('ARCHIVED', 'Archived'),
     )
-    
+
     status = models.CharField(max_length=100, choices=STATUS_CHOICES)
 
+    SHARED_WITH_CHOICES = (
+        ('MYSELF', 'Myself'),
+        ('PARTNER', 'Partner'),
+        ('ROOMMATE', 'Roommate(s)'),
+        ('FAMILY', 'Family'),
+    )
+    
+    shared_with = models.CharField(max_length=100, choices=SHARED_WITH_CHOICES)
+
+    BUDGET_CHOICES = (
+        (1, '$2k or less'),
+        (2, '$2k - $4k'),
+        (3, '$4k - $6k'),
+        (4, '$4k or more'),
+    )
+    
+    budget = models.CharField(max_length=1, choices=BUDGET_CHOICES)
+    
+    pet_friendly = models.BooleanField(default=True)
+    limited_access = models.BooleanField(default=False)
     style = models.CharField(max_length=200)
     video_url = models.CharField(max_length=200)
     zipcode = models.CharField(max_length=200)
@@ -46,4 +66,4 @@ class Project(models.Model):
 
     def __str__(self):
         '''A string representation of the model.'''
-        return self.room
+        return self.user.username + "'s " + self.get_room_display()

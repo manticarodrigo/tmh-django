@@ -6,13 +6,12 @@ from django.views.generic.base import RedirectView
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 from .users.views import UserAuthToken, UserViewSet, UserCreateViewSet, FacebookLogin, FacebookConnect
-from .projects.views import ListProject, DetailProject
+from .projects.views import ProjectViewSet
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'users', UserCreateViewSet)
-router.register(r'projects', ListProject)
-router.register(r'projects', DetailProject)
+router.register(r'projects', ProjectViewSet)
 
 urlpatterns = [
     # admin
