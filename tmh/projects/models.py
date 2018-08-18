@@ -1,6 +1,7 @@
 from django.db import models
-from tmh.users.models import User
 from django.utils import timezone
+from django.core.validators import URLValidator
+from tmh.users.models import User
 
 class Project(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
@@ -44,10 +45,10 @@ class Project(models.Model):
     shared_with = models.CharField(max_length=100, choices=SHARED_WITH_CHOICES)
 
     BUDGET_CHOICES = (
-        (1, '$2k or less'),
-        (2, '$2k - $4k'),
-        (3, '$4k - $6k'),
-        (4, '$4k or more'),
+        ('1', '$2k or less'),
+        ('2', '$2k - $4k'),
+        ('3', '$4k - $6k'),
+        ('4', '$4k or more'),
     )
     
     budget = models.CharField(max_length=1, choices=BUDGET_CHOICES)
@@ -67,3 +68,17 @@ class Project(models.Model):
     def __str__(self):
         '''A string representation of the model.'''
         return self.user.username + "'s " + self.get_room_display()
+
+class ProjectDetail(models.Model):
+    created_date = models.DateTimeField(default=timezone.now)
+    modified_date = models.DateTimeField(auto_now=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    
+    TYPE_CHOICES = (
+        ('DRAWING', 'Drawing'),
+        ('INSPIRATION', 'Inspiration'),
+        ('FURNITURE', 'Existing furniture'),
+    )
+
+    type = models.CharField(max_length=100, choices=TYPE_CHOICES)
+    url = models.TextField(validators=[URLValidator()])

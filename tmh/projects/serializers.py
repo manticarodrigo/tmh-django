@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Project, User
+from .models import Project, ProjectDetail
 from tmh.users.serializers import UserSerializer
 
 
@@ -23,7 +23,16 @@ class ProjectReadableSerializer(serializers.ModelSerializer):
 
     created_date = serializers.DateTimeField(read_only=True)
     room = serializers.CharField(source='get_room_display')
-    status = serializers.CharField(source='get_status_display')
+    status = serializers.ChoiceField(choices=Project.STATUS_CHOICES)
     shared_with = serializers.CharField(source='get_shared_with_display')
     budget = serializers.CharField(source='get_budget_display')
     user = UserSerializer()
+
+class ProjectDetailSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = ProjectDetail
+        fields = '__all__'
+
+    created_date = serializers.DateTimeField(read_only=True)
+    type = serializers.ChoiceField(choices=ProjectDetail.TYPE_CHOICES)
