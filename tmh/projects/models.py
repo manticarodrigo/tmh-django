@@ -56,7 +56,7 @@ class Project(models.Model):
     pet_friendly = models.BooleanField(default=True)
     limited_access = models.BooleanField(default=False)
     style = models.CharField(max_length=200)
-    video_url = models.CharField(max_length=200)
+    video_url = models.TextField(validators=[URLValidator()])
     zipcode = models.CharField(max_length=200)
     designer_note = models.CharField(max_length=200)
     final_note = models.CharField(max_length=200)
@@ -81,4 +81,8 @@ class ProjectDetail(models.Model):
     )
 
     type = models.CharField(max_length=100, choices=TYPE_CHOICES)
-    url = models.TextField(validators=[URLValidator()])
+    image = models.ImageField(upload_to='details')
+
+    def __str__(self):
+        '''A string representation of the model.'''
+        return self.project.user.username + "'s " + self.get_type_display() + " for " + self.project.room

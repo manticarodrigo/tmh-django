@@ -4,6 +4,7 @@ from distutils.util import strtobool
 import dj_database_url
 from configurations import Configuration
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from google.oauth2 import service_account
 
 
 class Common(Configuration):
@@ -224,3 +225,10 @@ class Common(Configuration):
     REST_AUTH_SERIALIZERS = {
         'TOKEN_SERIALIZER': 'tmh.users.serializers.TokenSerializer',
     }
+
+    # Django Storages
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    GS_BUCKET_NAME = 'tmh-bucket'
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+        "env/gauth.json"
+    )
