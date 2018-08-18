@@ -39,9 +39,16 @@ class ProjectViewSet(viewsets.ViewSet):
         serializer.save()
         return Response(serializer.data)
 
+    def partial_update(self, request, pk=None):
+        project = Project.objects.get(id=pk)
+        serializer = ProjectSerializer(project, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data)
+
     def destroy(self, request, pk=None):
-        user = Project.objects.get(id=pk)
-        user.delete()
+        project = Project.objects.get(id=pk)
+        project.delete()
         return Response({})
 
     @action(methods=['get'], detail=False, permission_classes=[IsUserOrReadOnly,])
