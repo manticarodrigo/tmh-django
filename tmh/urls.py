@@ -5,13 +5,11 @@ from django.contrib import admin
 from django.views.generic.base import RedirectView
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
-from .users.views import UserAuthToken, UserViewSet, UserCreateViewSet, FacebookLogin, FacebookConnect
+from .users.views import UserViewSet, FacebookLogin, FacebookConnect
 from .projects.views import ProjectViewSet, ProjectDetailViewSet
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
-# router.register(r'users', UserUpdateViewSet)
-router.register(r'users', UserCreateViewSet)
 router.register(r'projects', ProjectViewSet)
 router.register(r'details', ProjectDetailViewSet)
 
@@ -21,13 +19,10 @@ urlpatterns = [
     
     # rest api
     path('api/v1/', include(router.urls)),
-    path('api-token-auth/', UserAuthToken.as_view()),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     # rest-auth
     re_path(r'^rest-auth/', include('rest_auth.urls')),
     re_path(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
-    re_path(r'^accounts/', include('allauth.urls'), name='socialaccount_signup'),
     re_path(r'^rest-auth/facebook/$', FacebookLogin.as_view(), name='fb_login'),
     re_path(r'^rest-auth/facebook/connect/$', FacebookConnect.as_view(), name='fb_connect'),
 
