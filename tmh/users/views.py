@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny
 
 from .models import User
 from .permissions import IsUserOrReadOnly
-from .serializers import CreateUserSerializer, UserSerializer
+from .serializers import UserSerializer, CreateUserSerializer
 
 # Custom auth token View
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -33,19 +33,30 @@ class UserAuthToken(ObtainAuthToken):
             'last_name': user.last_name,
         })
 
-class UserViewSet(mixins.RetrieveModelMixin,
-                  mixins.UpdateModelMixin,
-                  viewsets.GenericViewSet):
+class UserViewSet(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet):
     """
-    Updates and retrieves user accounts
+    Retrieves user accounts
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsUserOrReadOnly,)
 
+# class UserUpdateViewSet(
+#     mixins.UpdateModelMixin,
+#     viewsets.GenericViewSet):
+#     """
+#     Updates user accounts
+#     """
+#     queryset = User.objects.all()
+#     serializer_class = UpdateUserSerializer
+#     permission_classes = (IsUserOrReadOnly,)
 
-class UserCreateViewSet(mixins.CreateModelMixin,
-                        viewsets.GenericViewSet):
+class UserCreateViewSet(
+    mixins.CreateModelMixin,
+    viewsets.GenericViewSet):
     """
     Creates user accounts
     """

@@ -26,7 +26,8 @@ class ProjectReadableSerializer(serializers.ModelSerializer):
     status = serializers.ChoiceField(choices=Project.STATUS_CHOICES)
     shared_with = serializers.CharField(source='get_shared_with_display')
     budget = serializers.CharField(source='get_budget_display')
-    user = UserSerializer()
+    client = UserSerializer()
+    designer = UserSerializer()
 
 class ProjectDetailSerializer(serializers.ModelSerializer):
     

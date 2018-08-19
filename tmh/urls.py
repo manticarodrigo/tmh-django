@@ -10,6 +10,7 @@ from .projects.views import ProjectViewSet, ProjectDetailViewSet
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
+# router.register(r'users', UserUpdateViewSet)
 router.register(r'users', UserCreateViewSet)
 router.register(r'projects', ProjectViewSet)
 router.register(r'details', ProjectDetailViewSet)

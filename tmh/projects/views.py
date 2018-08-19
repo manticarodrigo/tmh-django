@@ -54,7 +54,7 @@ class ProjectViewSet(viewsets.ViewSet):
     @action(methods=['get'], detail=False, permission_classes=[IsUserOrReadOnly,])
     def me(self, request, pk=None):
         user = request.user
-        serializer = ProjectReadableSerializer(Project.objects.filter(user__pk=user.id), many=True)
+        serializer = ProjectReadableSerializer(Project.objects.filter(client__pk=user.id), many=True)
         return Response(serializer.data)
 
 class ProjectDetailViewSet(viewsets.ModelViewSet):

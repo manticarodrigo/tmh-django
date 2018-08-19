@@ -11,6 +11,9 @@ from rest_framework.authtoken.models import Token
 @python_2_unicode_compatible
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    image = models.ImageField(upload_to='users', blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True)
+    state = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.username
