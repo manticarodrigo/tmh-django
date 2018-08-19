@@ -39,6 +39,7 @@ class Common(Configuration):
         'tmh.users',
         'tmh.projects',
         'tmh.details',
+        'tmh.items',
 
     )
 

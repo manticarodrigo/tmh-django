@@ -8,11 +8,13 @@ from rest_framework.authtoken import views
 from .users.views import UserViewSet, FacebookLogin, FacebookConnect
 from .projects.views import ProjectViewSet
 from .details.views import ProjectDetailViewSet
+from .items.views import ProjectItemViewSet
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'projects', ProjectViewSet)
 router.register(r'details', ProjectDetailViewSet)
+router.register(r'items', ProjectItemViewSet)
 
 urlpatterns = [
     # admin
