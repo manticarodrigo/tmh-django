@@ -41,4 +41,4 @@ class IsUserOrReadOnly(permissions.BasePermission):
 #             return True
 
 #         # Instance must have an attribute named `project`.
-#         return obj.project.user == request.user
+#         return obj.project.client == request.user

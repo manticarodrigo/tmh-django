@@ -225,6 +225,10 @@ class Common(Configuration):
     REST_AUTH_SERIALIZERS = {
         'TOKEN_SERIALIZER': 'tmh.users.serializers.TokenSerializer',
     }
+    
+    REST_AUTH_REGISTER_SERIALIZERS = {
+        'REGISTER_SERIALIZER': 'tmh.users.serializers.RegisterUserSerializer'
+    }
 
     # Django Storages
     DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
