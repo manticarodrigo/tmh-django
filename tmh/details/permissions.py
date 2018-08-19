@@ -11,4 +11,4 @@ class IsEditorOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        return obj.client == request.user or obj.designer == request.user
+        return obj.project.client == request.user or obj.project.designer == request.user

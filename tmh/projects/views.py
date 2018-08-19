@@ -1,12 +1,10 @@
-from django.core import serializers
-from rest_framework import viewsets, mixins, generics
+from rest_framework import viewsets, mixins
 from rest_framework.decorators import action
-from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Project, ProjectDetail
-from .permissions import IsUserOrReadOnly
-from .serializers import ProjectSerializer, ProjectReadableSerializer, ProjectDetailSerializer
+from .models import Project
+from .permissions import IsEditorOrReadOnly
+from .serializers import ProjectSerializer, ProjectReadableSerializer
 
 
 class ProjectViewSet(viewsets.ViewSet):
@@ -15,7 +13,7 @@ class ProjectViewSet(viewsets.ViewSet):
     """
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = (IsUserOrReadOnly,)
+    permission_classes = (IsEditorOrReadOnly,)
 
     def list(self, request):
         queryset = Project.objects.all()
@@ -51,23 +49,8 @@ class ProjectViewSet(viewsets.ViewSet):
         project.delete()
         return Response({})
 
-    @action(methods=['get'], detail=False, permission_classes=[IsUserOrReadOnly,])
+    @action(methods=['get'], detail=False, permission_classes=[IsEditorOrReadOnly,])
     def me(self, request, pk=None):
         user = request.user
         serializer = ProjectReadableSerializer(Project.objects.filter(client__pk=user.id), many=True)
-        return Response(serializer.data)
-
-class ProjectDetailViewSet(viewsets.ModelViewSet):
-    """
-    Retrieves projects detail
-    """
-    queryset = ProjectDetail.objects.all()
-    serializer_class = ProjectDetailSerializer
-    permission_classes = (IsUserOrReadOnly,)
-
-    @action(methods=['get'], detail=False, permission_classes=[IsUserOrReadOnly,])
-    def project(self, request, pk=None):
-        project_id = request.query_params['project']
-        project = Project.objects.get(id=project_id)
-        serializer = ProjectDetailSerializer(ProjectDetail.objects.filter(project__pk=project.id), many=True)
         return Response(serializer.data)

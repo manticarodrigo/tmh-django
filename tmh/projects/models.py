@@ -1,7 +1,6 @@
 import uuid
 from django.db import models
 from django.conf import settings
-from django.utils import timezone
 from django.core.validators import URLValidator
 
 class Project(models.Model):
@@ -82,35 +81,3 @@ class Project(models.Model):
     def __str__(self):
         '''A string representation of the model.'''
         return self.client.username + "'s " + self.get_room_display()
-
-class ProjectDetail(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-
-    created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now=True)
-
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    
-    STATUS_CHOICES = (
-        ('APPROVED', 'Approved'),
-        ('PENDING', 'Pending'),
-        ('SUBMITTED', 'Submitted'),
-    )
-
-    status = models.CharField(max_length=100, choices=STATUS_CHOICES)
-
-    TYPE_CHOICES = (
-        ('DRAWING', 'Drawing'),
-        ('INSPIRATION', 'Inspiration'),
-        ('FURNITURE', 'Existing Furniture'),
-        ('CONCEPT', 'Concept'),
-        ('FLOOR_PLAN', 'Floor Plan'),
-        ('FINAL_SNAPSHOT', 'Final Snapshot')
-    )
-
-    type = models.CharField(max_length=100, choices=TYPE_CHOICES)
-    image = models.ImageField(upload_to='details')
-
-    def __str__(self):
-        '''A string representation of the model.'''
-        return self.project.client.username + "'s " + self.get_type_display() + " for " + self.project.room

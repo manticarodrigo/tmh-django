@@ -37,7 +37,8 @@ class Common(Configuration):
 
         # Your apps
         'tmh.users',
-        'tmh.projects'
+        'tmh.projects',
+        'tmh.details',
 
     )
 

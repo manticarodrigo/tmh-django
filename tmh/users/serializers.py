@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model, authenticate
 from django.conf import settings
 
 from rest_framework import serializers, exceptions
@@ -6,11 +5,6 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.authtoken.models import Token
 
 from .models import User
-
-# Get the UserModel
-UserModel = get_user_model()
-
-from django.http import HttpRequest
 
 try:
     from allauth.account import app_settings as allauth_settings
@@ -20,8 +14,6 @@ try:
     from allauth.account.utils import setup_user_email
 except ImportError:
     raise ImportError("allauth needs to be added to INSTALLED_APPS.")
-
-from requests.exceptions import HTTPError
 
 
 class UserSerializer(serializers.ModelSerializer):

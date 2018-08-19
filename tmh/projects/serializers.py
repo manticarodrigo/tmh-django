@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Project, ProjectDetail
+from .models import Project
+
 from tmh.users.serializers import UserSerializer
 
 
@@ -28,12 +29,3 @@ class ProjectReadableSerializer(serializers.ModelSerializer):
     budget = serializers.CharField(source='get_budget_display')
     client = UserSerializer()
     designer = UserSerializer()
-
-class ProjectDetailSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = ProjectDetail
-        fields = '__all__'
-
-    created_date = serializers.DateTimeField(read_only=True)
-    type = serializers.ChoiceField(choices=ProjectDetail.TYPE_CHOICES)
