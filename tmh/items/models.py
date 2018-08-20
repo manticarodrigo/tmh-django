@@ -44,4 +44,4 @@ class ProjectItem(models.Model):
 
     def __str__(self):
         '''A string representation of the model.'''
-        return self.project.client.username + "'s " + self.get_type_display() + " for " + self.project.room
+        return self.project.client.username + "'s " + self.make + " for " + self.project.room
