@@ -13,6 +13,13 @@ class ProjectItem(models.Model):
 
     # foreign key fields
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    parent = models.ForeignKey(
+        'self',
+        related_name='alternatives',
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
     
     # image fields
     image = models.ImageField(upload_to='details')
