@@ -4,8 +4,8 @@ from django.core.validators import URLValidator
 from tmh.projects.models import Project
 
 class ProjectItem(models.Model):
-    # unique id is ommitted to use
-    # autofield as number increment
+    # unique id field
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     # auto fields
     created_date = models.DateTimeField(auto_now_add=True)

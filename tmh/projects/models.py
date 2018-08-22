@@ -76,7 +76,7 @@ class Project(models.Model):
     zipcode = models.CharField(max_length=200, blank=True)
     designer_note = models.CharField(max_length=200, blank=True)
     final_note = models.CharField(max_length=200, blank=True)
-    revision_count = models.IntegerField(blank=True, null=True)
+    revision_count = models.IntegerField(default=1)
 
     def __str__(self):
         '''A string representation of the model.'''
