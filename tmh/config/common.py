@@ -236,5 +236,5 @@ class Common(Configuration):
     DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
     GS_BUCKET_NAME = 'tmh-bucket'
     GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-        "env/gauth.json"
+        "gauth.json"
     )
