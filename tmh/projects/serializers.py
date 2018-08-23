@@ -23,7 +23,7 @@ class ProjectReadableSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     created_date = serializers.DateTimeField(read_only=True)
-    room = serializers.CharField(source='get_room_display')
+    room = serializers.ChoiceField(choices=Project.ROOM_CHOICES)
     status = serializers.ChoiceField(choices=Project.STATUS_CHOICES)
     shared_with = serializers.CharField(source='get_shared_with_display')
     budget = serializers.CharField(source='get_budget_display')
