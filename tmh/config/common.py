@@ -58,7 +58,7 @@ class Common(Configuration):
 
     CORS_ORIGIN_WHITELIST = (
         'localhost:8100/',
-        'https://tmh-ionic.herokuapp.com/'
+        'tmh-ionic.herokuapp.com/'
     )
 
     ALLOWED_HOSTS = ["*"]
