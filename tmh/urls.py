@@ -28,6 +28,7 @@ urlpatterns = [
     re_path(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     re_path(r'^rest-auth/facebook/$', FacebookLogin.as_view(), name='fb_login'),
     re_path(r'^rest-auth/facebook/connect/$', FacebookConnect.as_view(), name='fb_connect'),
+    re_path(r'^accounts/', include('allauth.urls'), name='socialaccount_signup'),
 
     # the 'api-root' from django rest-frameworks default router
     # http://www.django-rest-framework.org/api-guide/routers/#defaultrouter
