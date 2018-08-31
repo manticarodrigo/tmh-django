@@ -21,5 +21,9 @@ class ProjectItemViewSet(viewsets.ModelViewSet):
     def project(self, request, pk=None):
         project_id = request.query_params['project']
         project = Project.objects.get(id=project_id)
-        serializer = ProjectItemSerializer(ProjectItem.objects.filter(project__pk=project.id), many=True)
+        serializer = ProjectItemSerializer(
+            ProjectItem.objects.filter(project__pk=project.id),
+            many=True,
+            context={"request": request}
+        )
         return Response(serializer.data)
