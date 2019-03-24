@@ -9,6 +9,8 @@ class ProjectDetail(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+    image = models.ImageField(upload_to='details')
     
     STATUS_CHOICES = (
         ('APPROVED', 'Approved'),
@@ -28,7 +30,6 @@ class ProjectDetail(models.Model):
     )
 
     type = models.CharField(max_length=100, choices=TYPE_CHOICES)
-    image = models.ImageField(upload_to='details')
 
     def __str__(self):
         '''A string representation of the model.'''
