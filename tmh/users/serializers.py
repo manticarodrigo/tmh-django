@@ -75,7 +75,7 @@ class RegisterUserSerializer(serializers.Serializer):
 
     def validate(self, data):
         if data['password1'] != data['password2']:
-            raise serializers.ValidationError('The two password fields didn't match.')
+            raise serializers.ValidationError("The two password fields did not match.")
 
         return data
 
