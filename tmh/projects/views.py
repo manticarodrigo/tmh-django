@@ -52,5 +52,12 @@ class ProjectViewSet(viewsets.ViewSet):
     @action(methods=['get'], detail=False, permission_classes=[IsEditorOrReadOnly,])
     def me(self, request, pk=None):
         user = request.user
-        serializer = ProjectReadableSerializer(Project.objects.filter(client__pk=user.id), many=True)
+        project = Project.objects.filter(client__pk=user.id)
+        serializer = ProjectReadableSerializer(project, many=True)
+        return Response(serializer.data)
+
+    @action(methods=['get'], detail=False, permission_classes=[IsEditorOrReadOnly,])
+    def latest(self, request, pk=None):
+        project = Project.objects.latest('modified_date')
+        serializer = ProjectReadableSerializer(project)
         return Response(serializer.data)
