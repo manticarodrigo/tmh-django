@@ -22,6 +22,7 @@ class Common(Configuration):
         'rest_framework.authtoken',  # token authentication
         'django_filters',            # for filtering rest endpoints
         'corsheaders',               # for cors requests
+        'channels',                  # for WebSocket connections
 
         # Rest auth
         'rest_auth',
@@ -233,3 +234,15 @@ class Common(Configuration):
     REST_AUTH_REGISTER_SERIALIZERS = {
         'REGISTER_SERIALIZER': 'tmh.users.serializers.RegisterUserSerializer'
     }
+
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [("redis", 6379)],
+            },
+        },
+    }
+
+    # Django Channels
+    ASGI_APPLICATION = 'tmh.routing.application'

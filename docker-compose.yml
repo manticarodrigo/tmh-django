@@ -5,6 +5,8 @@ services:
     image: postgres:9.6
     volumes:
       - db_data:/var/lib/postgresql
+  redis:
+    image: redis:4.0-alpine
   web:
     restart: always
     environment:
@@ -22,6 +24,7 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
+      - redis
 volumes:
   db_data:
     driver: local

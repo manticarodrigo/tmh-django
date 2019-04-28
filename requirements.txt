@@ -13,12 +13,18 @@ dj-database-url==0.5.0
 django-model-utils==3.1.2
 django_unique_upload==0.2.1
 
-# Rest apis
+# Rest API
 djangorestframework==3.8.2
 Markdown==2.6.11
 django-filter==2.0.0
 django-cors-headers==2.4.0
 django-rest-auth[with_social]==0.9.3
+
+# Channels
+channels===2.1.1
+channels_redis===2.1.1
+daphne===2.1.1
+asgi_redis===1.4.3
 
 # Developer Tools
 ipdb==0.11
