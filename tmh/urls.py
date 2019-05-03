@@ -3,12 +3,14 @@ from django.urls import path, re_path, include, reverse_lazy
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import RedirectView
+
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
-from .users.views import UserViewSet, FacebookLogin, FacebookConnect
-from .projects.views import ProjectViewSet
-from .details.views import ProjectDetailViewSet
-from .items.views import ProjectItemViewSet
+
+from tmh.core.apis.user.views import UserViewSet, FacebookLogin, FacebookConnect
+from tmh.core.apis.project.views import ProjectViewSet
+from tmh.core.apis.detail.views import ProjectDetailViewSet
+from tmh.core.apis.item.views import ProjectItemViewSet
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)

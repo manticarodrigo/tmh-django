@@ -36,11 +36,8 @@ class Common(Configuration):
         'allauth.socialaccount.providers.facebook',
 
         # Your apps
-        'tmh.users',
-        'tmh.projects',
-        'tmh.details',
-        'tmh.items',
-
+        'tmh.core.apps.CoreConfig',
+        'tmh.channels_app.apps.ChannelsConfig',
     )
 
     SITE_ID = 1
@@ -206,7 +203,7 @@ class Common(Configuration):
     }
 
     # Custom user app
-    AUTH_USER_MODEL = 'users.User'
+    AUTH_USER_MODEL = 'core.User'
 
     # Django Rest Framework
     REST_FRAMEWORK = {
@@ -228,11 +225,11 @@ class Common(Configuration):
     
     # Django Rest Auth
     REST_AUTH_SERIALIZERS = {
-        'TOKEN_SERIALIZER': 'tmh.users.serializers.TokenSerializer',
+        'TOKEN_SERIALIZER': 'tmh.core.apis.user.serializers.TokenSerializer',
     }
     
     REST_AUTH_REGISTER_SERIALIZERS = {
-        'REGISTER_SERIALIZER': 'tmh.users.serializers.RegisterUserSerializer'
+        'REGISTER_SERIALIZER': 'tmh.core.apis.user.serializers.RegisterUserSerializer'
     }
 
     CHANNEL_LAYERS = {
@@ -245,4 +242,4 @@ class Common(Configuration):
     }
 
     # Django Channels
-    ASGI_APPLICATION = 'tmh.routing.application'
+    ASGI_APPLICATION = 'tmh.channels_app.routing.application'
