@@ -37,7 +37,7 @@ class Common(Configuration):
 
         # Your apps
         'tmh.core.apps.CoreConfig',
-        'tmh.channels_app.apps.ChannelsConfig',
+        'tmh.api.apps.ApiConfig',
     )
 
     SITE_ID = 1
@@ -222,14 +222,14 @@ class Common(Configuration):
             'rest_framework.authentication.TokenAuthentication',
         )
     }
-    
+
     # Django Rest Auth
     REST_AUTH_SERIALIZERS = {
-        'TOKEN_SERIALIZER': 'tmh.core.apis.user.serializers.TokenSerializer',
+        'TOKEN_SERIALIZER': 'tmh.api.user.serializers.TokenSerializer',
     }
-    
+
     REST_AUTH_REGISTER_SERIALIZERS = {
-        'REGISTER_SERIALIZER': 'tmh.core.apis.user.serializers.RegisterUserSerializer'
+        'REGISTER_SERIALIZER': 'tmh.api.user.serializers.RegisterUserSerializer'
     }
 
     CHANNEL_LAYERS = {
@@ -242,4 +242,4 @@ class Common(Configuration):
     }
 
     # Django Channels
-    ASGI_APPLICATION = 'tmh.channels_app.routing.application'
+    ASGI_APPLICATION = 'tmh.api.routing.application'

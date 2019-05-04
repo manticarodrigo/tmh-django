@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from tmh.core.apis.user.serializers import UserSerializer
+from tmh.api.user.serializers import UserSerializer
 from tmh.core.models.project import Project
 
 class ProjectSerializer(serializers.ModelSerializer):

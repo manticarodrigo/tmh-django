@@ -2,7 +2,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 from django.urls import path
 
-from tmh.channels_app.consumers import ChatConsumer
+from tmh.api.consumers import ChatConsumer
 
 websockets = URLRouter([
     path(
