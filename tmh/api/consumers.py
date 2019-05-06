@@ -3,35 +3,71 @@ from channels.generic.websocket import WebsocketConsumer
 import json
 
 from tmh.core.models.user import User
+from tmh.core.models.project import Project
 from tmh.core.models.message import ProjectMessage
 
 class ChatConsumer(WebsocketConsumer):
+    def connect(self):
+        self.room_name = self.scope['url_route']['kwargs']['room_name']
+        print(self.room_name)
+        self.room_group_name = 'chat_%s' % self.room_name
+
+        # Join room group
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_group_name,
+            self.channel_name
+        )
+
+        self.accept()
+
+    def disconnect(self, close_code):
+        # Leave group room
+        async_to_sync(self.channel_layer.group_discard)(
+            self.room_group_name,
+            self.channel_name
+        )
+
+    # Receive message from WebSocket
+    def receive(self, text_data):
+        data = json.loads(text_data)
+        self.commands[data['command']](self, data)
+
+    # Receive message from room group
+    def chat_message(self, event):
+        message = event['message']
+        # Send message to WebSocket
+        self.send(text_data=json.dumps(message))
+
+    ###
+    ## Commands
+    ###
 
     def init_chat(self, data):
         username = data['username']
-        user, created = User.objects.get_or_create(username=username)
+        user = User.objects.get(username=username)
         content = {
             'command': 'init_chat'
         }
         if not user:
-            content['error'] = 'Unable to get or create User with username: ' + username
-            self.send_message(content)
-        content['success'] = 'Chatting in with success with username: ' + username
-        self.send_message(content)
+            content['error'] = 'Unable to get user with username: ' + username
+            self.send(text_data=json.dumps(content))
+        content['success'] = 'Chatting in ' + self.room_name + ' with success with username: ' + username
+        self.send(text_data=json.dumps(content))
 
     def fetch_messages(self, data):
-        messages = ProjectMessage.last_50_messages()
+        messages = ProjectMessage.objects.filter(project__pk=self.room_name)
         content = {
             'command': 'messages',
             'messages': self.messages_to_json(messages)
         }
-        self.send_message(content)
+        self.send(text_data=json.dumps(content))
 
     def new_message(self, data):
         author = data['from']
         text = data['text']
-        author_user, created = User.objects.get_or_create(username=author)
-        message = ProjectMessage.objects.create(author=author_user, content=text)
+        user = User.objects.get(username=author)
+        project = Project.objects.get(pk=self.room_name)
+        message = ProjectMessage.objects.create(author=user, project=project, content=text)
         content = {
             'command': 'new_message',
             'message': self.message_to_json(message)
@@ -52,37 +88,6 @@ class ChatConsumer(WebsocketConsumer):
             'created_at': str(message.created_at)
         }
 
-    commands = {
-        'init_chat': init_chat,
-        'fetch_messages': fetch_messages,
-        'new_message': new_message
-    }
-
-    def connect(self):
-        self.room_name = 'room'
-        self.room_group_name = 'chat_%s' % self.room_name
-
-        # Join room group
-        async_to_sync(self.channel_layer.group_add)(
-            self.room_group_name,
-            self.channel_name
-        )
-        self.accept()
-
-    def disconnect(self, close_code):
-        # leave group room
-        async_to_sync(self.channel_layer.group_discard)(
-            self.room_group_name,
-            self.channel_name
-        )
-
-    def receive(self, text_data):
-        data = json.loads(text_data)
-        self.commands[data['command']](self, data)
-
-    def send_message(self, message):
-        self.send(text_data=json.dumps(message))
-
     def send_chat_message(self, message):
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
@@ -93,8 +98,8 @@ class ChatConsumer(WebsocketConsumer):
             }
         )
 
-    # Receive message from room group
-    def chat_message(self, event):
-        message = event['message']
-        # Send message to WebSocket
-        self.send(text_data=json.dumps(message))
+    commands = {
+        'init_chat': init_chat,
+        'fetch_messages': fetch_messages,
+        'new_message': new_message
+    }

@@ -6,7 +6,7 @@ from tmh.api.consumers import ChatConsumer
 
 websockets = URLRouter([
     path(
-        'ws/chat/',
+        'ws/chat/<room_name>/',
         ChatConsumer,
         name='ws_chat',
     ),
