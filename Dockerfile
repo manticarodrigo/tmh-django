@@ -11,7 +11,7 @@ WORKDIR code
 
 EXPOSE 8000
 
-# Migrates the database, uploads staticfiles, and runs the production server
+# Migrates the database, uploads staticfiles, and runs the server
 CMD ./manage.py migrate && \
     ./manage.py collectstatic --noinput && \
-    newrelic-admin run-program daphene --bind 0.0.0.0:$PORT --access-logfile - tmh.asgi:application
+    daphene --bind 0.0.0.0:$PORT tmh.asgi:application

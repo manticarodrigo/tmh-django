@@ -1,1 +1,1 @@
-web: gunicorn tmh.wsgi
+web: daphene tmh.asgi
