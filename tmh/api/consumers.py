@@ -66,7 +66,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def message_to_json(self, message):
         return {
             'id': str(message.id),
-            'author': message.author.username,
+            'author': message.author.get_short_name(),
             'content': message.content,
             'created_at': str(message.created_at)
         }

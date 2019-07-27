@@ -17,6 +17,12 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+    def get_short_name(self):
+        try:
+            return self.first_name + " " + self.last_name[0] + "."
+        except:
+            return self.username
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
